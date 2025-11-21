@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>RaylibWasm</title>
+
+        <link rel="modulepreload" href="./main.js" />
+        <link rel="modulepreload" href="./_framework/dotnet.js" />
+    </head>
+    <body style="margin: 0px; width: 100vw; height: 100vh; overflow: hidden">
+        <canvas id="canvas" style="width: 100vw; height: 100vh" oncontextmenu="event.preventDefault()"></canvas>
+        
+        <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+        <script type="module" src="./main.js"></script>
+    </body>
+</html>
