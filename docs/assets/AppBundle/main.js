@@ -1,4 +1,4 @@
-﻿import { dotnet } from './_framework/dotnet.js'
+﻿import { dotnet } from './framework/dotnet.js'
 
 const runtime = await dotnet
     .withDiagnosticTracing(false)
