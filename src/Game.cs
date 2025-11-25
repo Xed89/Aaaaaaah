@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Security.Cryptography;
+using System.Text;
 using Raylib_cs;
 using Color = Raylib_cs.Color;
 using Rectangle = Raylib_cs.Rectangle;
@@ -14,7 +16,13 @@ class Game
   Assets assets = null!;
   List<Entity> entities = new();
   Entity player = null!;
+  Entity player2 = null!;
   int punti = 0;
+  bool isAskingConnectionName;
+  string myName;
+  string connectTo;
+  PeerJs peerJs;
+  float posUpdateTime;
 
   public void Create(int width, int height)
   {
@@ -24,9 +32,20 @@ class Game
     Raylib.SetTargetFPS(60);
     Raylib.InitAudioDevice();
 
+    myName = PeerJsInterop.Prompt("Come ti chiami?", "abc");
+    peerJs = PeerJsInterop.Create(CreateGuidStringFromText(myName));
+
     assets = new Assets();
 
     CreateScene();
+  }
+
+  private string CreateGuidStringFromText(string text)
+  {
+    var textBytes = UTF8Encoding.UTF8.GetBytes(text);
+    var textHash = SHA256.HashData(textBytes);
+    var guid = new Guid(textHash.AsSpan().Slice(0, 16));
+    return guid.ToString();
   }
 
   public void Update()
@@ -44,8 +63,10 @@ class Game
     Draw();
     // Disegna gli FPS
     float fps = 1 / Raylib.GetFrameTime();
-    Raylib.DrawText("FPS: " + fps.ToString("00.0"), 5, 5, 20, Color.Black);
-    Raylib.DrawText("Punti: " + punti.ToString(), windowWidth / 2 - 100, 5, 60, Color.Black);
+    Raylib.DrawText("FPS: " + fps.ToString("00.0"), 5, 5, 20, Color.White);
+    Raylib.DrawText("Nome: " + myName, 5, 30, 20, Color.White);
+    Raylib.DrawText("Connetti a: " + connectTo, 5, 55, 20, Color.White);
+    Raylib.DrawText("Punti: " + punti.ToString(), windowWidth / 2 - 100, 5, 60, Color.White);
     Raylib.EndDrawing();
   }
 
@@ -57,10 +78,72 @@ class Game
                              GeneraNumeroCasuale(10, windowWidth - 20),
                              z: 0);
     entities.Add(player);
+
+    player2 = new Entity();
+    player2.Type = EntityType.Player;
+    player2.Pos = new Vector3(-100, 0, z: 0);
+    entities.Add(player2);
   }
 
   void Update(float deltaTime)
   {
+    var AskConnectPressed = false;
+    var MoveToRandomPoint = false;
+    if (Raylib.GetTouchPointCount() > 0)
+    {
+      if (Raylib.GetTouchPosition(0).Length() < 100)
+      {
+        AskConnectPressed = true;
+      }
+      else
+      {
+        MoveToRandomPoint = true;
+      }
+    }
+
+    if (Raylib.IsKeyDown(KeyboardKey.C))
+    {
+      AskConnectPressed = true;
+    }
+    if (Raylib.IsKeyDown(KeyboardKey.Space))
+    {
+      MoveToRandomPoint = true;
+    }
+
+    if (AskConnectPressed)
+    {
+      if (!isAskingConnectionName)
+      {
+        isAskingConnectionName = true;
+        connectTo = PeerJsInterop.Prompt("A chi vuoi connetterti?", "abc");
+        peerJs.ConnectTo(CreateGuidStringFromText(connectTo));
+      }
+    }
+
+    if (MoveToRandomPoint)
+    {
+      player.Pos = new Vector3(GeneraNumeroCasuale(10, windowWidth - 20),
+                         GeneraNumeroCasuale(10, windowWidth - 20),
+                         z: 0);
+    }
+
+    if (peerJs.DataQueue.Count > 0)
+    {
+      if (peerJs.DataQueue[0].Length == 2)
+      {
+        player2.Pos.X = peerJs.DataQueue[0][0] * 10;
+        player2.Pos.Y = peerJs.DataQueue[0][1] * 10;
+      }
+      peerJs.DataQueue.Clear();
+    }
+
+    posUpdateTime += deltaTime;
+    if (posUpdateTime > 3)
+    {
+      posUpdateTime = 0;
+      peerJs.SendData([(byte)(player.Pos.X / 10), (byte)(player.Pos.Y / 10)]);
+    }
+
     for (var i = 0; i < entities.Count; i++)
     {
       var entity = entities[i];

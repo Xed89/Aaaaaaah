@@ -1,21 +1,23 @@
 {
   "mainAssemblyName": "Aaaaaaah.dll",
   "resources": {
-    "hash": "sha256-6KfyYUHUYRbVkJ4juuBJjCG99R/Xvo/9Dzk+wQItieg=",
+    "hash": "sha256-FOuB383+YTQG0bcPsYezzAxppYBw2qm0qFflOMA4h+g=",
     "jsModuleNative": {
-      "dotnet.native.js": "sha256-12Hc4Ad6e6uRPdSfLFnoc9vvqiKqvBTiMfvvjemQQmA="
+      "dotnet.native.js": "sha256-GD+SmlDINzospgdjz2pZMgUkRs8rFXY2Fjrt2Egz5yY="
     },
     "jsModuleRuntime": {
       "dotnet.runtime.js": "sha256-6QIZYgG+ftoT9N1H1EEJeXIhD/qbKqEcnmawDskiwdI="
     },
     "wasmNative": {
-      "dotnet.native.wasm": "sha256-4ZfWxGGswbu1syQ8zXaCqq8wxRV67eXToVq4+e9h6zQ="
+      "dotnet.native.wasm": "sha256-SniHbRJqT8fFAf96FIeUhFjrubIvEgaVhW8Dsf4cEpU="
     },
     "coreAssembly": {
-      "Aaaaaaah.wasm": "sha256-dqTKQbgep0UOvnYc2EAO5Kn1yVaMjADPoh5KUWn4ogo=",
-      "Raylib-cs.wasm": "sha256-I1+wtkww/bDzdpVhxbJfmWNOPUq+TL8FyEquUdTqORE=",
-      "System.Private.CoreLib.wasm": "sha256-XwZGIz0rfeW112to3uiSgYnuDEx2dc9sQEL1bTHFlwY=",
-      "System.Runtime.InteropServices.JavaScript.wasm": "sha256-ZdigdmquKvHsll720jeWhFlUQDfZzb5/wLt7bLlcEiY=",
+      "Aaaaaaah.wasm": "sha256-RZQ5yX4csjsvXRehANh1rgcevuFxarY2632hamYsyQQ=",
+      "Raylib-cs.wasm": "sha256-TZOh0Dk7jZusn1aghU59xCSFgVNqMuXJZHsYvS2anAA=",
+      "System.Console.wasm": "sha256-2VDODShFy7TdDpbciBg6ZnYDYSBIeGuBwnTtY/F+Km0=",
+      "System.Private.CoreLib.wasm": "sha256-gA2GRCOxsYeWIpCYnSS1RUzpeoMi0mm1Adr8wz0sRJA=",
+      "System.Runtime.InteropServices.JavaScript.wasm": "sha256-pdDH5XDEapbDblrCm3yBJQ4H/7iQWLsZnTKDuSweQ14=",
+      "System.Security.Cryptography.wasm": "sha256-PFT2/00dd5BO8InyQXR+h4mNb5f63mCiB7HDBkIg4U8=",
       "aot-instances.wasm": "sha256-Obp5F98Qz12KeOrJulW9k5x0dhTFvl7fSl2QI+FAhZk="
     },
     "assembly": {},
